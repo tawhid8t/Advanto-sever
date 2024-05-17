@@ -1,11 +1,12 @@
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const port = process.env.port || 5000;
 const app = express()
 
+app.use(cors({origin: ["http://localhost:5173", "https://advanto-ef40b.web.app"]}))
 app.use(express.json())
-app.use(cors())
+
 
 app.get('/', (req, res)=>{
     res.send('Advanto server is running')
@@ -26,7 +27,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     const database = client.db("AllSpotsDB");
     const spotsCollection = database.collection("spotsCollection")
 
@@ -92,8 +93,8 @@ async function run() {
 
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    // await client.db("admin").command({ ping: 1 });
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
